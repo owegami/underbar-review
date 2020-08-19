@@ -376,7 +376,6 @@
       arr[rand] = currentElem;
     }
     return arr;
-
   };
 
 
