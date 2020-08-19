@@ -52,7 +52,7 @@
         iterator(collection[i], i, collection);
       }
     } else {
-      for (var key in collection) {
+      for (let key in collection) {
         iterator(collection[key], key, collection);
       }
     }
@@ -64,7 +64,7 @@
     // TIP: Here's an example of a function that needs to iterate, which we've
     // implemented for you. Instead of using a standard `for` loop, though,
     // it uses the iteration helper `each`, which you will need to write.
-    var result = -1;
+    let result = -1;
 
     _.each(array, function(item, index) {
       if (item === target && result === -1) {
@@ -78,7 +78,7 @@
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
     var results = [];
-    for (var i = 0; i < collection.length; i++) {
+    for (let i = 0; i < collection.length; i++) {
       if (test.call(null, collection[i])) {
         results.push(collection[i]);
       }
@@ -91,7 +91,7 @@
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
     var results = [];
-    for (var i = 0; i < collection.length; i++) {
+    for (let i = 0; i < collection.length; i++) {
       if (!test.call(null, collection[i])) {
         results.push(collection[i]);
       }
@@ -101,6 +101,27 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    if (iterator === undefined) {
+      iterator = _.identity;
+    }
+    let results = [array[0]];
+    if (isSorted) {
+      for (let i = 1; i < array.length; i++) {
+        if (!iterator(array[i - 1]) === iterator(array[i])) {
+          results.push(array[i]);
+        }
+      }
+    } else {
+      let keepTrack = {};
+      keepTrack[array[0]] = 1;
+      for (let i = 1; i < array.length; i++) {
+        if (keepTrack[array[i]] === undefined) {
+          results.push(array[i]);
+          keepTrack[array[i]] = 1;
+        }
+      }
+    }
+    return results;
   };
 
 
